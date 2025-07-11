@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func, Enum as SQLAlchemyEnum
 from werkzeug.security import generate_password_hash, check_password_hash
-import enum
+import enum, cryptography
 from .extensions import db
 
 # Define la tabla Restaurants
@@ -12,6 +12,8 @@ class Restaurant(db.Model):
     address = db.Column(db.String(200), nullable=False)
     phone = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(100), nullable=False, unique=True)
+    password_hash = db.Column(db.String(256), nullable=False)
+
     slug = db.Column(db.String(100), nullable=False, unique=True)
     image_url_1 = db.Column(db.String(200), nullable=True)
     image_url_2 = db.Column(db.String(200), nullable=True)
@@ -20,7 +22,15 @@ class Restaurant(db.Model):
     subscription_id_processor = db.Column(db.String(100), nullable=True)
     customer_id_processor = db.Column(db.String(100), nullable=True)
     current_period_end = db.Column(db.DateTime, nullable=True)
+    # --- MÉTODOS NUEVOS PARA MANEJAR CONTRASEÑA ---
+    def set_password(self, password):
+        """Crea un hash de la contraseña y lo guarda."""
+        self.password_hash = generate_password_hash(password)
 
+    def check_password(self, password):
+        """Verifica la contraseña hasheada con la proporcionada."""
+        return check_password_hash(self.password_hash, password)
+    
     def serialize(self):
         return {
             'id': self.id,
