@@ -3,7 +3,7 @@ from sqlalchemy import func, Enum as SQLAlchemyEnum
 from werkzeug.security import generate_password_hash, check_password_hash
 import enum, cryptography
 from .extensions import db
-
+from .extensions import bcrypt
 # Define la tabla Restaurants
 class Restaurant(db.Model):
     __tablename__ = 'restaurants'
@@ -13,8 +13,9 @@ class Restaurant(db.Model):
     phone = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(100), nullable=False, unique=True)
     password_hash = db.Column(db.String(256), nullable=False)
+    slug = db.Column(db.String(150), unique=True, nullable=False) 
 
-    slug = db.Column(db.String(100), nullable=False, unique=True)
+
     image_url_1 = db.Column(db.String(200), nullable=True)
     image_url_2 = db.Column(db.String(200), nullable=True)
     image_url_3 = db.Column(db.String(200), nullable=True)
@@ -23,30 +24,34 @@ class Restaurant(db.Model):
     customer_id_processor = db.Column(db.String(100), nullable=True)
     current_period_end = db.Column(db.DateTime, nullable=True)
     # --- MÉTODOS NUEVOS PARA MANEJAR CONTRASEÑA ---
+
     def set_password(self, password):
-        """Crea un hash de la contraseña y lo guarda."""
-        self.password_hash = generate_password_hash(password)
+        """
+        Hashea la contraseña proporcionada y la guarda en el campo password_hash.
+        """
+        self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
 
     def check_password(self, password):
-        """Verifica la contraseña hasheada con la proporcionada."""
-        return check_password_hash(self.password_hash, password)
-    
+        """
+        Verifica si la contraseña proporcionada coincide con el hash almacenado.
+        """
+        return bcrypt.check_password_hash(self.password_hash, password)
+
     def serialize(self):
+        """
+        Devuelve una representación del objeto en formato JSON,
+        excluyendo datos sensibles como la contraseña.
+        """
         return {
             'id': self.id,
             'name': self.name,
-            'address': self.address,
-            'phone': self.phone,
             'email': self.email,
-            'slug': self.slug,
-            'image_url_1': self.image_url_1,
-            'image_url_2': self.image_url_2,
-            'image_url_3': self.image_url_3,
-            'image_url_4': self.image_url_4,
-            'subscription_id_processor': self.subscription_id_processor,
-            'customer_id_processor': self.customer_id_processor,
-            'current_period_end': self.current_period_end
+            'address': self.address,
+            'phone': self.phone
         }
+
+    def __repr__(self):
+        return f'<Restaurant {self.name}>'
     
 
 #Define la tabla Dishes

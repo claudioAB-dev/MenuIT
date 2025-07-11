@@ -1,12 +1,16 @@
 from flask import Flask
-from .extensions import db, cors, migrate, jwt
 import os
 from dotenv import load_dotenv
+from flask_cors import CORS
+
+
 from . import models
-from api.admin import auth_bp 
+from .extensions import db, bcrypt, jwt, migrate
+from .api.admin import auth_bp
+#from .api.menu import menu_bp
+
+
 load_dotenv()
-
-
 
 def create_app():
     app = Flask(__name__)
@@ -17,17 +21,15 @@ def create_app():
 
     # Inicializa las extensiones con la app
     db.init_app(app)
-    cors.init_app(app, resources={r"/api/*": {"origins": "*"}})
+    CORS(app, supports_credentials=True, resources={r"/auth/*": {"origins": "http://localhost:5173"}})
     migrate.init_app(app, db) 
     jwt.init_app(app)
-
-    app.register_blueprint(auth_bp)
-
 
 
     # Importar y registrar Blueprints
     from .api import api_bp
     from .api import menu, admin  
+    app.register_blueprint(auth_bp)
     
     app.register_blueprint(api_bp, url_prefix='/api')
 
