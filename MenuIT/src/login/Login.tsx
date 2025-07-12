@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
+import "./styles/Login.css";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -12,6 +13,11 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    // Prevenir envío si los campos están vacíos
+    if (!email || !password) {
+      setError("Por favor, completa ambos campos.");
+      return;
+    }
     setLoading(true);
     setError(null);
 
@@ -40,102 +46,77 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div
-      style={{
-        maxWidth: "400px",
-        margin: "2rem auto",
-        padding: "2rem",
-        boxShadow: "var(--shadow-lg)",
-        borderRadius: "var(--border-radius-lg)",
-      }}
-    >
-      <h2
-        style={{
-          textAlign: "center",
-          color: "var(--primary-700)",
-          marginBottom: "1.5rem",
-        }}
-      >
-        Iniciar Sesión
-      </h2>
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: "1rem" }}>
-          <label
-            htmlFor="email"
-            style={{
-              display: "block",
-              color: "var(--form-label-color)",
-              marginBottom: "0.5rem",
-            }}
-          >
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            style={{
-              width: "100%",
-              padding: "0.75rem",
-              border: "1px solid var(--form-input-border)",
-              borderRadius: "var(--border-radius-md)",
-            }}
-          />
+    <div className="login-page-container">
+      <div className="login-card">
+        {/* Header con logo */}
+        <div className="login-header">
+          <a className="login-logo" href="/">
+            M
+          </a>
+          <h2 className="login-title">Iniciar Sesión</h2>
+          <p className="login-subtitle">Accede a tu cuenta de MenuIT</p>
         </div>
-        <div style={{ marginBottom: "1.5rem" }}>
-          <label
-            htmlFor="password"
-            style={{
-              display: "block",
-              color: "var(--form-label-color)",
-              marginBottom: "0.5rem",
-            }}
-          >
-            Contraseña
-          </label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            style={{
-              width: "100%",
-              padding: "0.75rem",
-              border: "1px solid var(--form-input-border)",
-              borderRadius: "var(--border-radius-md)",
-            }}
-          />
-        </div>
-        {error && (
-          <p
-            style={{
-              color: "var(--error-600)",
-              textAlign: "center",
-              marginBottom: "1rem",
-            }}
-          >
-            {error}
+
+        {/* Se añade el manejador onSubmit al formulario */}
+        <form className="login-form" onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="email" className="form-label">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              required
+              className="form-input"
+              // Se enlaza el valor y el manejador de cambio
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              disabled={loading} // Se deshabilita durante la carga
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="password" className="form-label">
+              Contraseña
+            </label>
+            <input
+              type="password"
+              id="password"
+              required
+              className="form-input"
+              // Se enlaza el valor y el manejador de cambio
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              disabled={loading} // Se deshabilita durante la carga
+            />
+          </div>
+
+          {/* Renderizado condicional del mensaje de error */}
+          {error && (
+            <div className="error-message-container">
+              <p className="error-message-text">{error}</p>
+            </div>
+          )}
+
+          {/* El botón se deshabilita y cambia su texto durante la carga */}
+          <button type="submit" className="submit-button" disabled={loading}>
+            {loading ? "Iniciando sesión..." : "Iniciar Sesión"}
+          </button>
+        </form>
+
+        <div className="register-link-container">
+          <p>
+            ¿No tienes una cuenta?{" "}
+            <button
+              className="register-link"
+              onClick={() => navigate("/register")} // Funcionalidad de navegación
+              disabled={loading}
+            >
+              Regístrate aquí
+            </button>
           </p>
-        )}
-        <button
-          type="submit"
-          disabled={loading}
-          style={{
-            width: "100%",
-            padding: "0.75rem",
-            border: "none",
-            borderRadius: "var(--border-radius-md)",
-            backgroundColor: "var(--btn-primary-bg)",
-            color: "var(--btn-primary-text)",
-            cursor: "pointer",
-          }}
-        >
-          {loading ? "Cargando..." : "Entrar"}
-        </button>
-      </form>
+        </div>
+      </div>
     </div>
   );
 };

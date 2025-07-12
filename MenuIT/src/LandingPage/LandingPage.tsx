@@ -1,14 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Smartphone,
-  Zap,
-  Users,
-  QrCode,
-  Star,
-  Check,
-  Menu,
-  X,
-} from "lucide-react";
+import { Smartphone, Zap, Users, Star, Check, Menu, X } from "lucide-react";
 
 import "./styles/HeroStyles.css";
 import "./styles/Header.css";
@@ -16,7 +7,7 @@ import "./styles/Features.css";
 import "./styles/PricingStyles.css";
 import "./styles/TestimonialsStyles.css";
 import "./styles/CtaStyles.css";
-import Footer from "./components/footer";
+import Footer from "./components/Footer";
 
 const MenuITLanding = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -93,8 +84,18 @@ const MenuITLanding = () => {
 
           {/* Acciones de Escritorio */}
           <div className="actions-desktop">
-            <button className="btn btn-secondary">Iniciar Sesión</button>
-            <button className="btn btn-primary">Registrarse</button>
+            <button
+              className="btn btn-secondary"
+              onClick={() => (window.location.href = "/login")}
+            >
+              Iniciar Sesión
+            </button>
+            <button
+              className="btn btn-primary"
+              onClick={() => (window.location.href = "/register")}
+            >
+              Registrarse
+            </button>
           </div>
         </div>
 
