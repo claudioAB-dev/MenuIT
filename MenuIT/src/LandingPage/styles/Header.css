@@ -1,0 +1,357 @@
+/* --- Contenedor Principal del Header --- */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease,
+    border-color 0.3s ease;
+  background-color: transparent;
+  border-bottom: 1px solid transparent; /* Borde sutil para el estado 'scrolled' */
+}
+
+/* Estado cuando se ha hecho scroll */
+.site-header.scrolled {
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border-color: #e5e7eb;
+}
+
+/* --- Contenedor Interno --- */
+.header-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* --- Logo --- */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* space-x-2 */
+}
+
+.logo-icon {
+  width: 2rem; /* w-8 */
+  height: 2rem; /* h-8 */
+  background-image: linear-gradient(to right, #f97316, #22c55e);
+  border-radius: 0.5rem; /* rounded-lg */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 0.875rem; /* text-sm */
+}
+
+.logo-text {
+  font-size: 1.25rem; /* text-xl */
+  font-weight: 700; /* font-bold */
+  color: #1f2937; /* text-gray-800 */
+}
+
+/* --- Botones --- */
+.btn {
+  padding: 0.5rem 1rem; /* px-4 py-2 */
+  border-radius: 0.5rem; /* rounded-lg */
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-primary {
+  padding-left: 1.5rem; /* px-6 */
+  padding-right: 1.5rem; /* px-6 */
+  background-image: linear-gradient(to right, #f97316, #22c55e);
+  color: white;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  transform: scale(1.05);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #374151; /* text-gray-700 */
+}
+
+.btn-secondary:hover {
+  background-color: #f3f4f6; /* bg-gray-100 */
+  color: #f97316; /* text-orange-500 */
+}
+
+/* --- Navegación de Escritorio --- */
+.nav-desktop {
+  display: none; /* Oculto por defecto */
+  gap: 2rem; /* space-x-8 */
+}
+
+.nav-desktop button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #374151; /* text-gray-700 */
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.25rem 0;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.nav-desktop button::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #f97316;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.nav-desktop button:hover {
+  color: #f97316; /* hover:text-orange-500 */
+}
+
+.nav-desktop button:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* --- Acciones de Escritorio --- */
+.actions-desktop {
+  display: none; /* Oculto por defecto */
+  gap: 1rem; /* space-x-4 */
+}
+
+/* --- Menú Móvil --- */
+/* --- Botón toggle del menú móvil --- */
+.mobile-menu-toggle {
+  display: block;
+  background: transparent;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  z-index: 51;
+  color: #374151;
+}
+
+.mobile-menu-toggle:hover {
+  background-color: #f3f4f6;
+  color: #f97316;
+}
+
+/* --- Menú móvil --- */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 49; /* Menor que el header para que el logo se vea */
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid #e5e7eb;
+  padding-top: 80px; /* Espacio para el header */
+
+  /* Estado inicial (cerrado) */
+  opacity: 0;
+  transform: translateY(-20px);
+  visibility: hidden;
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s 0.3s;
+}
+
+/* Estado abierto */
+.mobile-menu.open {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s 0s;
+}
+
+/* --- Contenedor del menú --- */
+.mobile-menu-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* --- Navegación móvil --- */
+.nav-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nav-mobile button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #374151;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.75rem 0.5rem;
+  text-align: left;
+  border-radius: 0.5rem;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+
+  /* Estado inicial para animación */
+  opacity: 0;
+  transform: translateX(-15px);
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out, color 0.2s ease;
+}
+
+.nav-mobile button::after {
+  content: "";
+  position: absolute;
+  width: 4px;
+  height: 0;
+  left: 0;
+  top: 50%;
+  background-color: #f97316;
+  border-radius: 0 2px 2px 0;
+  transform: translateY(-50%);
+  transition: height 0.25s ease-out;
+}
+
+.nav-mobile button:hover {
+  color: #f97316;
+  background-color: #fef3f2;
+}
+
+.nav-mobile button:hover::after {
+  height: 60%;
+}
+
+/* --- Acciones móviles --- */
+.actions-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.actions-mobile .btn {
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+
+  /* Estado inicial para animación */
+  opacity: 0;
+  transform: translateX(-15px);
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out,
+    background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.actions-mobile .btn-secondary {
+  background-color: transparent;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.actions-mobile .btn-secondary:hover {
+  background-color: #f3f4f6;
+  color: #f97316;
+  border-color: #f97316;
+}
+
+.actions-mobile .btn-primary {
+  background-image: linear-gradient(to right, #f97316, #22c55e);
+  color: white;
+  border: 1px solid transparent;
+}
+
+.actions-mobile .btn-primary:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  transform: scale(1.02) translateX(0);
+}
+
+/* --- Animación escalonada cuando se abre el menú --- */
+.mobile-menu.open .nav-mobile button,
+.mobile-menu.open .actions-mobile .btn {
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: calc(0.1s + var(--stagger-index) * 0.05s);
+}
+
+/* --- Overlay para cerrar el menú --- */
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.1);
+  z-index: 48; /* Menor que el menú y el header */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0s 0.3s;
+}
+
+.mobile-menu-overlay.open {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease, visibility 0s 0s;
+}
+
+/* --- Media Queries --- */
+@media (min-width: 1024px) {
+  .mobile-menu-toggle,
+  .mobile-menu,
+  .mobile-menu-overlay {
+    display: none;
+  }
+
+  .nav-desktop,
+  .actions-desktop {
+    display: flex;
+  }
+}
+
+/* --- Mejoras para pantallas pequeñas --- */
+@media (max-width: 480px) {
+  .mobile-menu-container {
+    padding: 0.75rem;
+  }
+
+  .nav-mobile button {
+    padding: 0.625rem 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .actions-mobile .btn {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* --- Ajustes para cuando el header tiene scroll --- */
+.site-header.scrolled .mobile-menu-toggle {
+  color: #374151;
+}
+
+.site-header.scrolled .mobile-menu-toggle:hover {
+  background-color: #f3f4f6;
+  color: #f97316;
+}

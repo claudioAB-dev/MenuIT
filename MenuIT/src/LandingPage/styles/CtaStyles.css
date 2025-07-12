@@ -1,0 +1,102 @@
+/* --- Variables Globales (pueden ir en un archivo global) --- */
+:root {
+  --color-text-primary: #1f2937;
+  --color-white: #ffffff;
+  --color-primary: #f97316;
+  --color-success: #22c55e;
+
+  --font-family-sans: "Inter", -apple-system, sans-serif;
+
+  --spacing-4: 1rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-20: 5rem;
+}
+
+/* --- Estilos Generales de la Sección --- */
+.cta-section {
+  padding: var(--spacing-20) 0;
+  background-image: linear-gradient(
+    to right,
+    var(--color-primary),
+    var(--color-success)
+  );
+  font-family: var(--font-family-sans);
+}
+
+.cta-section__container {
+  text-align: center;
+}
+
+.cta-section__title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-white);
+  margin-bottom: var(--spacing-6);
+}
+
+.cta-section__subtitle {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.9); /* Recrea text-white/90 */
+  max-width: 42rem;
+  margin: 0 auto var(--spacing-8);
+  line-height: 1.6;
+}
+
+.cta-section__actions {
+  display: flex;
+  flex-direction: column; /* Apilados en móvil */
+  gap: var(--spacing-4);
+  justify-content: center;
+  align-items: center;
+}
+
+/* --- Estilos de Botones --- */
+.cta-section__button {
+  width: 100%; /* Ancho completo en móvil */
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  border-radius: 0.75rem; /* rounded-xl */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent; /* Evita saltos de layout en hover */
+}
+
+/* --- Botón Primario (Fondo blanco) --- */
+.cta-section__button--primary {
+  background-color: var(--color-white);
+  color: var(--color-text-primary);
+}
+
+.cta-section__button--primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* --- Botón Secundario (Borde) --- */
+.cta-section__button--secondary {
+  background-color: transparent;
+  border-color: var(--color-white);
+  color: var(--color-white);
+}
+
+.cta-section__button--secondary:hover {
+  background-color: var(--color-white);
+  color: var(--color-text-primary);
+}
+
+/* --- Media Queries (sm: 640px) --- */
+@media (min-width: 640px) {
+  .cta-section__title {
+    font-size: 2.5rem;
+  }
+
+  .cta-section__actions {
+    flex-direction: row; /* En línea en pantallas grandes */
+  }
+
+  .cta-section__button {
+    width: auto; /* Ancho automático en pantallas grandes */
+  }
+}

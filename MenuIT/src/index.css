@@ -2,6 +2,7 @@
    ROOT CSS - MenuIT
    Digital Menu Platform
    =========================================== */
+@import "tailwindcss";
 
 :root {
   /* ===============================
