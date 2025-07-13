@@ -75,7 +75,7 @@ const ProductFeaturesPage: React.FC = () => {
         className="container"
         style={{ maxWidth: "1024px", margin: "0 auto", padding: "4rem 1rem" }}
       >
-        {features.map((feature, index) => (
+        {features.map((feature) => (
           <div
             key={feature.title}
             style={{

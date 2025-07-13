@@ -1,4 +1,4 @@
-import React from "react";
+//import React from "react";
 import { Smartphone, Zap, Users, Star, Check } from "lucide-react";
 
 import Header from "./components/Header";

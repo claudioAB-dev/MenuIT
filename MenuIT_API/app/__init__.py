@@ -21,14 +21,17 @@ def create_app():
 
     # Inicializa las extensiones con la app
     db.init_app(app)
-    CORS(app, supports_credentials=True, resources={r"/auth/*": {"origins": "http://localhost:5173"}})
+    CORS(app, supports_credentials=True, resources={
+        r"/auth/*": {"origins": "http://localhost:5173"},
+        r"/api/*": {"origins": "http://localhost:5173"}
+    })
     migrate.init_app(app, db) 
     jwt.init_app(app)
 
 
     # Importar y registrar Blueprints
     from .api import api_bp
-    from .api import menu, admin  
+    from .api import menu, admin, adminmenu
     app.register_blueprint(auth_bp)
     
     app.register_blueprint(api_bp, url_prefix='/api')

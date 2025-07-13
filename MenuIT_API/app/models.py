@@ -93,3 +93,11 @@ class Category(db.Model):
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(500), nullable=True)
     image_url = db.Column(db.String(200), nullable=True)
+    def serialize(self):
+        return {
+            'id': self.id,
+            'restaurant_id': self.restaurant_id,
+            'name': self.name,
+            'description': self.description,
+            'image_url': self.image_url
+        }    

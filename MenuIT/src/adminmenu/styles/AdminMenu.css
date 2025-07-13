@@ -1,0 +1,28 @@
+.admin-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: auto;
+  font-family: sans-serif;
+}
+
+.admin-section {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-top: 2rem;
+}
+
+.admin-section h2 {
+  margin-top: 0;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 0.5rem;
+}
+
+.error-message {
+  color: #d9534f;
+  background-color: #f2dede;
+  border: 1px solid #ebccd1;
+  padding: 1rem;
+  border-radius: 4px;
+}

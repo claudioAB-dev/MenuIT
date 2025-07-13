@@ -15,6 +15,9 @@ import DocumentationPage from "./pages/DocumentationPage";
 import ContactPage from "./pages/ContactPage";
 import AboutPage from "./pages/AboutPage";
 import ProductFeaturesPage from "./pages/ProductFeaturesPage";
+import AdminMenu from "./adminmenu/AdminMenu";
+import ProtectedRoute from "./auth/ProtectedRoute";
+
 const AppContent: React.FC = () => {
   const { isAuthenticated } = useAuth();
 
@@ -25,18 +28,18 @@ const AppContent: React.FC = () => {
           <Route path="/" element={<LandingPage />} />
           <Route
             path="/login"
-            element={isAuthenticated ? <Navigate to="/profile" /> : <Login />}
+            element={isAuthenticated ? <Navigate to="/adminmenu" /> : <Login />}
           />
           <Route
             path="/register"
             element={
-              isAuthenticated ? <Navigate to="/profile" /> : <Register />
+              isAuthenticated ? <Navigate to="/adminmenu" /> : <Register />
             }
           />
-          <Route
-            path="/profile"
-            element={isAuthenticated ? <Profile /> : <Navigate to="/login" />}
-          />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/adminmenu" element={<AdminMenu />} />
+          </Route>
 
           <Route element={<MainLayout />}>
             <Route path="/carrera" element={<CareersPage />} />
