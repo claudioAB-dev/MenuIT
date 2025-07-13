@@ -1,4 +1,3 @@
-import React from "react";
 import "../styles/Footer.css"; //
 
 const Footer = () => {
@@ -35,16 +34,10 @@ const Footer = () => {
             <h3 className="footer-heading">Producto</h3>
             <ul>
               <li>
-                <a href="#">Características</a>
+                <a href="/caracteristicas">Características</a>
               </li>
               <li>
                 <a href="#">Precios</a>
-              </li>
-              <li>
-                <a href="#">API</a>
-              </li>
-              <li>
-                <a href="#">Integraciones</a>
               </li>
             </ul>
           </div>
@@ -54,16 +47,16 @@ const Footer = () => {
             <h3 className="footer-heading">Empresa</h3>
             <ul>
               <li>
-                <a href="#">Acerca de</a>
+                <a href="/acerca-de">Acerca de</a>
               </li>
               <li>
                 <a href="#">Blog</a>
               </li>
               <li>
-                <a href="#">Carreras</a>
+                <a href="/carrera">Carreras</a>
               </li>
               <li>
-                <a href="#">Contacto</a>
+                <a href="/contacto">Contacto</a>
               </li>
             </ul>
           </div>
@@ -73,16 +66,16 @@ const Footer = () => {
             <h3 className="footer-heading">Soporte</h3>
             <ul>
               <li>
-                <a href="#">Centro de Ayuda</a>
+                <a href="/centro-de-ayuda">Centro de Ayuda</a>
               </li>
               <li>
-                <a href="#">Documentación</a>
+                <a href="/documentacion">Documentación</a>
               </li>
               <li>
-                <a href="#">Estado del Servicio</a>
+                <a href="/estado-de-servicio">Estado del Servicio</a>
               </li>
               <li>
-                <a href="#">Política de Privacidad</a>
+                <a href="/politica-de-privacidad">Política de Privacidad</a>
               </li>
             </ul>
           </div>

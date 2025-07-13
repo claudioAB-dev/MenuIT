@@ -1,34 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { Smartphone, Zap, Users, Star, Check, Menu, X } from "lucide-react";
+import React from "react";
+import { Smartphone, Zap, Users, Star, Check } from "lucide-react";
+
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 import "./styles/HeroStyles.css";
-import "./styles/Header.css";
 import "./styles/Features.css";
 import "./styles/PricingStyles.css";
 import "./styles/TestimonialsStyles.css";
 import "./styles/CtaStyles.css";
-import Footer from "./components/Footer";
 
 const MenuITLanding = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  interface ScrollToSectionProps {
-    sectionId: string;
-  }
-
-  const scrollToSection = (sectionId: ScrollToSectionProps["sectionId"]) => {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
-    setIsMenuOpen(false);
-  };
+  // Los estados y efectos del header ya no están aquí
 
   const testimonialsData = [
     {
@@ -37,7 +20,7 @@ const MenuITLanding = () => {
       name: "Carlos Mendoza",
       title: "Dueño - Tacos El Patrón",
       initials: "CM",
-      theme: "customer-one", // Corresponde a la clase modificadora en CSS
+      theme: "customer-one",
     },
     {
       quote:
@@ -52,95 +35,7 @@ const MenuITLanding = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-green-50 font-sans">
       {/* Header */}
-      <header className={`site-header ${isScrolled ? "scrolled" : ""}`}>
-        <div className="header-container">
-          {/* Logo */}
-          <div className="logo">
-            <div className="logo-icon">
-              <span>M</span>
-            </div>
-            <span className="logo-text">MenuIT</span>
-          </div>
-
-          {/* Botón del Menú Móvil */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="mobile-menu-toggle"
-            aria-label="Toggle menu"
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-
-          {/* Navegación de Escritorio */}
-          <nav className="nav-desktop">
-            <button onClick={() => scrollToSection("features")}>
-              Características
-            </button>
-            <button onClick={() => scrollToSection("pricing")}>Precios</button>
-            <button onClick={() => scrollToSection("testimonials")}>
-              Testimonios
-            </button>
-          </nav>
-
-          {/* Acciones de Escritorio */}
-          <div className="actions-desktop">
-            <button
-              className="btn btn-secondary"
-              onClick={() => (window.location.href = "/login")}
-            >
-              Iniciar Sesión
-            </button>
-            <button
-              className="btn btn-primary"
-              onClick={() => (window.location.href = "/register")}
-            >
-              Registrarse
-            </button>
-          </div>
-        </div>
-
-        {/* Menú Desplegable Móvil */}
-        {isMenuOpen && (
-          <div className={`mobile-menu ${isMenuOpen ? "open" : ""}`}>
-            <div className="mobile-menu-container">
-              <nav className="nav-mobile">
-                <button
-                  onClick={() => scrollToSection("features")}
-                  style={{ "--stagger-index": 1 } as React.CSSProperties}
-                >
-                  Características
-                </button>
-                <button
-                  onClick={() => scrollToSection("pricing")}
-                  style={{ "--stagger-index": 2 } as React.CSSProperties}
-                >
-                  Precios
-                </button>
-                <button
-                  onClick={() => scrollToSection("testimonials")}
-                  style={{ "--stagger-index": 3 } as React.CSSProperties}
-                >
-                  Testimonios
-                </button>
-              </nav>
-              <div className="actions-mobile">
-                <button
-                  className="btn btn-secondary"
-                  style={{ "--stagger-index": 4 } as React.CSSProperties}
-                >
-                  Iniciar Sesión
-                </button>
-                <button
-                  className="btn btn-primary"
-                  style={{ "--stagger-index": 5 } as React.CSSProperties}
-                >
-                  Registrarse
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-      </header>
+      <Header />
 
       <section className="hero-section">
         <div className="container hero-section__container">
@@ -156,7 +51,10 @@ const MenuITLanding = () => {
               interactivos que enamoran a tus clientes.
             </p>
             <div className="hero-section__actions">
-              <button className="hero-section__button hero-section__button--primary">
+              <button
+                className="hero-section__button hero-section__button--primary"
+                onClick={() => (window.location.href = "/register")}
+              >
                 Prueba Gratis 14 Días
               </button>
               <button className="hero-section__button hero-section__button--secondary">
@@ -235,7 +133,7 @@ const MenuITLanding = () => {
               <header className="pricing-card__header">
                 <h3 className="pricing-card__plan-name">Básico</h3>
                 <div className="pricing-card__price">
-                  $299
+                  $120
                   <span className="pricing-card__period">/ mes</span>
                 </div>
               </header>
@@ -257,7 +155,10 @@ const MenuITLanding = () => {
                   <span>Soporte por email</span>
                 </li>
               </ul>
-              <button className="pricing-card__cta-button">
+              <button
+                className="pricing-card__cta-button"
+                onClick={() => (window.location.href = "/register")}
+              >
                 Comenzar Ahora
               </button>
             </div>
@@ -268,7 +169,7 @@ const MenuITLanding = () => {
               <header className="pricing-card__header">
                 <h3 className="pricing-card__plan-name">Pro</h3>
                 <div className="pricing-card__price">
-                  $599
+                  $200
                   <span className="pricing-card__period">/ mes</span>
                 </div>
               </header>
@@ -294,7 +195,10 @@ const MenuITLanding = () => {
                   <span>Soporte prioritario</span>
                 </li>
               </ul>
-              <button className="pricing-card__cta-button">
+              <button
+                className="pricing-card__cta-button"
+                onClick={() => (window.location.href = "/register")}
+              >
                 Comenzar Ahora
               </button>
             </div>
@@ -304,7 +208,7 @@ const MenuITLanding = () => {
               <header className="pricing-card__header">
                 <h3 className="pricing-card__plan-name">Enterprise</h3>
                 <div className="pricing-card__price">
-                  $1,299
+                  $1,000
                   <span className="pricing-card__period">/ mes</span>
                 </div>
               </header>
