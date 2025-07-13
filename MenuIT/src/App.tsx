@@ -47,10 +47,7 @@ const AppContent: React.FC = () => {
               path="/politica-de-privacidad"
               element={<PrivacyPolicyPage />}
             />
-            <Route
-              path="//estado-de-servicio"
-              element={<ServiceStatusPage />}
-            />
+            <Route path="/estado-de-servicio" element={<ServiceStatusPage />} />
             <Route path="/centro-de-ayuda" element={<HelpCenterPage />} />
             <Route path="/documentacion" element={<DocumentationPage />} />{" "}
             <Route path="/contacto" element={<ContactPage />} />{" "}

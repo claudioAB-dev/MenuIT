@@ -17,15 +17,21 @@ def create_dish():
     current_user_id = get_jwt_identity()
     data = request.get_json()
 
-    if not data or not all(key in data for key in ['name', 'price', 'category_id']):
-        return jsonify({"msg": "Faltan datos: nombre, precio y category_id son requeridos"}), 400
-
+    missing_keys = [key for key in ['name', 'price', 'category_id'] if key not in (data or {})]
+    if not data or missing_keys:
+        print(f"[DEBUG] Datos recibidos: {data}")
+        print(f"[DEBUG] Faltan los siguientes campos: {missing_keys}")
+        return jsonify({
+            "msg": f"Faltan datos: {', '.join(missing_keys)} son requeridos",
+            "received": data,
+            "missing": missing_keys
+        }), 400
     new_dish = Dishes(
         restaurant_id=current_user_id,
         name=data['name'],
         description=data.get('description'),
         price=data['price'],
-        category_id=data['category_id'],
+        category_id=str(data['category_id']),
         image_url_1=data.get('image_url_1'),
         is_active=data.get('is_active', True)
     )

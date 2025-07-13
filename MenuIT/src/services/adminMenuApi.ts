@@ -30,7 +30,28 @@ export const createCategory = async (
   return response.json();
 };
 
-// ... (Puedes agregar aquí updateCategory y deleteCategory de forma similar)
+export const updateCategory = async (
+  token: string,
+  categoryId: string,
+  categoryData: { name: string; description?: string }
+) => {
+  const response = await fetch(`${API_URL}/categories/${categoryId}`, {
+    method: "PUT",
+    headers: getAuthHeaders(token),
+    body: JSON.stringify(categoryData),
+  });
+  if (!response.ok) throw new Error("Error al actualizar la categoría");
+  return response.json();
+};
+
+export const deleteCategory = async (token: string, categoryId: string) => {
+  const response = await fetch(`${API_URL}/categories/${categoryId}`, {
+    method: "DELETE",
+    headers: getAuthHeaders(token),
+  });
+  if (!response.ok) throw new Error("Error al eliminar la categoría");
+  return response.json();
+};
 
 // --- SERVICIOS PARA PLATILLOS ---
 
@@ -52,4 +73,25 @@ export const createDish = async (token: string, dishData: any) => {
   return response.json();
 };
 
-// ... (Puedes agregar aquí updateDish y deleteDish de forma similar)
+export const updateDish = async (
+  token: string,
+  dishId: string,
+  dishData: any
+) => {
+  const response = await fetch(`${API_URL}/dishes/${dishId}`, {
+    method: "PUT",
+    headers: getAuthHeaders(token),
+    body: JSON.stringify(dishData),
+  });
+  if (!response.ok) throw new Error("Error al actualizar el platillo");
+  return response.json();
+};
+
+export const deleteDish = async (token: string, dishId: string) => {
+  const response = await fetch(`${API_URL}/dishes/${dishId}`, {
+    method: "DELETE",
+    headers: getAuthHeaders(token),
+  });
+  if (!response.ok) throw new Error("Error al eliminar el platillo");
+  return response.json();
+};
