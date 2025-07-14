@@ -1,26 +1,5 @@
 import React from "react";
-
-interface Category {
-  id: string;
-  name: string;
-  description?: string;
-}
-
-interface Dish {
-  id: string;
-  name: string;
-  description?: string;
-  price: number;
-  categoryId: string;
-  isActive: boolean;
-}
-
-interface DishListProps {
-  dishes: Dish[];
-  categories: Category[];
-  onEdit: (dish: Dish) => void;
-  onDelete: (dishId: string) => void;
-}
+import type { Category, Dish, DishListProps } from "../../types";
 
 const DishList: React.FC<DishListProps> = ({
   dishes,

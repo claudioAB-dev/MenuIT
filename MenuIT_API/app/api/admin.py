@@ -3,6 +3,8 @@ from app.models import Restaurant
 from app.extensions import db, bcrypt
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 import re
+from slugify import slugify
+
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 def generate_unique_slug(name):
@@ -91,3 +93,90 @@ def profile():
         return jsonify({"msg": "Usuario no encontrado"}), 404
         
     return jsonify(restaurant.serialize()), 200
+
+@auth_bp.route('/admin/restaurant', methods=['POST'])
+@jwt_required()
+def create_restaurant():
+    """
+    Crea un nuevo restaurante.
+    Un usuario solo puede tener un restaurante.
+    """
+    data = request.get_json()
+    user_id = get_jwt_identity()
+    
+    # Validar si el usuario ya tiene un restaurante
+    if Restaurant.query.filter_by(user_id=user_id).first():
+        return jsonify({"msg": "User already has a restaurant"}), 409 # Conflict
+
+    # Validar datos de entrada
+    if not all(k in data for k in ('name', 'address', 'phone')):
+        return jsonify({"msg": "Missing data: name, address, and phone are required"}), 400
+
+    name = data.get('name')
+    
+    new_restaurant = Restaurant(
+        name=name,
+        address=data.get('address'),
+        phone=data.get('phone'),
+        slug=slugify(name), # Genera un slug a partir del nombre
+        user_id=user_id
+    )
+    
+    db.session.add(new_restaurant)
+    db.session.commit()
+    
+    return jsonify(new_restaurant.serialize()), 201
+
+@auth_bp.route('/admin/restaurant', methods=['GET'])
+@jwt_required()
+
+def get_my_restaurant():
+    """
+    Obtiene los datos del restaurante del usuario logueado.
+    """
+    user_id = get_jwt_identity()
+    restaurant = Restaurant.query.filter_by(user_id=user_id).first()
+    
+    if not restaurant:
+        return jsonify({"msg": "Restaurant not found for this user"}), 404
+        
+    return jsonify(restaurant.serialize()), 200
+
+@auth_bp.route('/admin/restaurant', methods=['PUT'])
+@jwt_required()
+def update_restaurant():
+    """
+    Actualiza los datos del restaurante del usuario logueado.
+    """
+    data = request.get_json()
+    user_id = get_jwt_identity()
+    
+    restaurant = Restaurant.query.filter_by(user_id=user_id).first_or_404()
+
+    # Actualiza los campos si se proporcionan en el request
+    if 'name' in data:
+        restaurant.name = data['name']
+        restaurant.slug = slugify(data['name']) # Actualiza el slug si el nombre cambia
+    if 'address' in data:
+        restaurant.address = data['address']
+    if 'phone' in data:
+        restaurant.phone = data['phone']
+        
+    db.session.commit()
+    
+    return jsonify(restaurant.serialize()), 200
+
+@auth_bp.route('/admin/restaurant', methods=['DELETE'])
+@jwt_required()
+
+def delete_restaurant():
+    """
+    Elimina el restaurante del usuario logueado.
+    """
+    user_id = get_jwt_identity()
+    restaurant = Restaurant.query.filter_by(user_id=user_id).first_or_404()
+    
+    db.session.delete(restaurant)
+    db.session.commit()
+    
+    return jsonify({"msg": "Restaurant deleted successfully"}), 200

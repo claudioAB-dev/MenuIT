@@ -115,7 +115,6 @@ def create_category():
     )
     db.session.add(new_category)
     db.session.commit()
-    # Asumiendo que Category tiene un método serialize, si no, hay que crearlo.
     return jsonify({"id": new_category.id, "name": new_category.name, "description": new_category.description}), 201
 
 @admin_menu_bp.route('/categories', methods=['GET'])

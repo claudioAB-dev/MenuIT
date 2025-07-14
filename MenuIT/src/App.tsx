@@ -4,7 +4,7 @@ import ErrorBoundary from "./ErrorBoundary";
 import LandingPage from "./LandingPage/LandingPage";
 import Login from "./login/Login";
 import Register from "./login/Register";
-import Profile from "./auth/Profile";
+import Profile from "./adminmenu/profile/Profile";
 import { useAuth } from "./auth/AuthContext";
 import MainLayout from "./components/MainLayout";
 import CareersPage from "./pages/CareersPage";
@@ -53,8 +53,6 @@ const AppContent: React.FC = () => {
             <Route path="/contacto" element={<ContactPage />} />{" "}
             <Route path="/acerca-de" element={<AboutPage />} />{" "}
             <Route path="/caracteristicas" element={<ProductFeaturesPage />} />{" "}
-            {/*  <Route path="/contacto" element={<ContactPage />} /> */}
-            {/* <Route path="/acerca-de" element={<AboutPage />} /> */}
           </Route>
         </Routes>
       </main>

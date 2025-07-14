@@ -102,12 +102,14 @@ const Header = () => {
               <button
                 className="btn btn-secondary"
                 style={{ "--stagger-index": 4 } as React.CSSProperties}
+                onClick={() => (window.location.href = "/login")}
               >
                 Iniciar Sesión
               </button>
               <button
                 className="btn btn-primary"
                 style={{ "--stagger-index": 5 } as React.CSSProperties}
+                onClick={() => (window.location.href = "/register")}
               >
                 Registrarse
               </button>

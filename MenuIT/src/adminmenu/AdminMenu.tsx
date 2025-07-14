@@ -14,30 +14,11 @@ import CategoryList from "./components/CategoryList";
 import CategoryForm from "./components/CategoryForm";
 import DishList from "./components/DishList";
 import DishForm from "./components/DishForm";
+import AuthenticatedHeader from "./components/AuthenticatedHeader";
 import "./styles/AdminMenu.css";
+import Profile from "./profile/Profile";
 
-interface Category {
-  id: string;
-  name: string;
-  description?: string;
-}
-
-interface Dish {
-  id: string;
-  name: string;
-  description?: string;
-  price: number;
-  categoryId: string;
-  isActive: boolean;
-}
-
-interface FormData {
-  name: string;
-  description?: string;
-  price?: number;
-  categoryId?: string;
-  isActive?: boolean;
-}
+import type { Category, CategoryPayload, Dish, DishPayload } from "../types";
 
 const AdminMenu: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -86,33 +67,27 @@ const AdminMenu: React.FC = () => {
     setTimeout(() => setNotification(null), 3000);
   };
 
-  // Funciones para manejo de categorías
-  const handleCreateCategory = async (formData: FormData) => {
+  // --- MANEJO DE CATEGORÍAS (Sin cambios lógicos, solo usando la nueva interfaz) ---
+
+  const handleCreateCategory = async (payload: CategoryPayload) => {
     try {
-      await createCategory(token!, {
-        name: formData.name,
-        description: formData.description,
-      });
+      await createCategory(token!, payload);
       await fetchData();
       setShowCategoryForm(false);
-      showNotification("Categoría creada con éxito");
+      showNotification("Categoría creada con éxito ✅");
     } catch (err: any) {
       setError(err.message);
     }
   };
 
-  const handleUpdateCategory = async (formData: FormData) => {
+  const handleUpdateCategory = async (payload: CategoryPayload) => {
     if (!editingCategory) return;
-
     try {
-      await updateCategory(token!, editingCategory.id, {
-        name: formData.name,
-        description: formData.description,
-      });
+      await updateCategory(token!, editingCategory.id, payload);
       await fetchData();
       setShowCategoryForm(false);
       setEditingCategory(null);
-      showNotification("Categoría actualizada con éxito");
+      showNotification("Categoría actualizada con éxito ✨");
     } catch (err: any) {
       setError(err.message);
     }
@@ -120,15 +95,14 @@ const AdminMenu: React.FC = () => {
 
   const handleDeleteCategory = async (categoryId: string) => {
     if (
-      !window.confirm("¿Estás seguro de que deseas eliminar esta categoría?")
+      !window.confirm("¿Estás seguro? Se eliminarán los platillos asociados.")
     ) {
       return;
     }
-
     try {
       await deleteCategory(token!, categoryId);
       await fetchData();
-      showNotification("Categoría eliminada con éxito");
+      showNotification("Categoría eliminada 🗑️");
     } catch (err: any) {
       setError(err.message);
     }
@@ -139,39 +113,27 @@ const AdminMenu: React.FC = () => {
     setShowCategoryForm(true);
   };
 
-  // Funciones para manejo de platillos
-  const handleCreateDish = async (formData: FormData) => {
+  // --- MANEJO DE PLATILLOS (AQUÍ ESTÁ LA CORRECCIÓN) ---
+
+  const handleCreateDish = async (payload: DishPayload) => {
     try {
-      await createDish(token!, {
-        name: formData.name,
-        description: formData.description,
-        price: formData.price,
-        categoryId: formData.categoryId,
-        isActive: formData.isActive || true,
-      });
+      await createDish(token!, payload);
       await fetchData();
       setShowDishForm(false);
-      showNotification("Platillo creado con éxito");
+      showNotification("Platillo creado con éxito  प्लेट");
     } catch (err: any) {
       setError(err.message);
     }
   };
 
-  const handleUpdateDish = async (formData: FormData) => {
+  const handleUpdateDish = async (payload: DishPayload) => {
     if (!editingDish) return;
-
     try {
-      await updateDish(token!, editingDish.id, {
-        name: formData.name,
-        description: formData.description,
-        price: formData.price,
-        categoryId: formData.categoryId,
-        isActive: formData.isActive,
-      });
+      await updateDish(token!, editingDish.id, payload);
       await fetchData();
       setShowDishForm(false);
       setEditingDish(null);
-      showNotification("Platillo actualizado con éxito");
+      showNotification("Platillo actualizado con éxito 📝");
     } catch (err: any) {
       setError(err.message);
     }
@@ -183,11 +145,10 @@ const AdminMenu: React.FC = () => {
     ) {
       return;
     }
-
     try {
       await deleteDish(token!, dishId);
       await fetchData();
-      showNotification("Platillo eliminado con éxito");
+      showNotification("Platillo eliminado 🗑️");
     } catch (err: any) {
       setError(err.message);
     }
@@ -198,7 +159,8 @@ const AdminMenu: React.FC = () => {
     setShowDishForm(true);
   };
 
-  // Funciones para cerrar modales
+  // --- Funciones para cerrar modales ---
+
   const handleCloseCategoryForm = () => {
     setShowCategoryForm(false);
     setEditingCategory(null);
@@ -208,6 +170,8 @@ const AdminMenu: React.FC = () => {
     setShowDishForm(false);
     setEditingDish(null);
   };
+
+  // --- RENDERIZADO DEL COMPONENTE ---
 
   if (loading) {
     return (
@@ -225,69 +189,76 @@ const AdminMenu: React.FC = () => {
   }
 
   return (
-    <div className="admin-container">
-      <h1>Panel de Administración del Menú 🍽️</h1>
+    <div>
+      <AuthenticatedHeader />
+      <div className="admin-container">
+        <h1>Panel de Administración del Menú 🍽️</h1>
 
-      {notification && (
-        <div className="notification success">{notification}</div>
-      )}
+        {notification && (
+          <div className="notification success">{notification}</div>
+        )}
 
-      <div className="admin-section">
-        <div className="section-header">
-          <h2>Categorías</h2>
-          <button
-            className="btn btn-primary"
-            onClick={() => setShowCategoryForm(true)}
-          >
-            Crear Nueva Categoría
-          </button>
+        <div className="admin-section">
+          <div className="section-header">
+            <h2>Categorías</h2>
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                setEditingCategory(null);
+                setShowCategoryForm(true);
+              }}
+            >
+              Crear Nueva Categoría
+            </button>
+          </div>
+          <CategoryList
+            categories={categories}
+            onEdit={handleEditCategory}
+            onDelete={handleDeleteCategory}
+          />
         </div>
 
-        <CategoryList
-          categories={categories}
-          onEdit={handleEditCategory}
-          onDelete={handleDeleteCategory}
-        />
-      </div>
-
-      <div className="admin-section">
-        <div className="section-header">
-          <h2>Platillos</h2>
-          <button
-            className="btn btn-primary"
-            onClick={() => setShowDishForm(true)}
-          >
-            Crear Nuevo Platillo
-          </button>
+        <div className="admin-section">
+          <div className="section-header">
+            <h2>Platillos</h2>
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                setEditingDish(null);
+                setShowDishForm(true);
+              }}
+            >
+              Crear Nuevo Platillo
+            </button>
+          </div>
+          <DishList
+            dishes={dishes}
+            categories={categories}
+            onEdit={handleEditDish}
+            onDelete={handleDeleteDish}
+          />
         </div>
 
-        <DishList
-          dishes={dishes}
-          categories={categories}
-          onEdit={handleEditDish}
-          onDelete={handleDeleteDish}
-        />
+        {/* --- MODALES --- */}
+        {showCategoryForm && (
+          <CategoryForm
+            category={editingCategory}
+            onSubmit={
+              editingCategory ? handleUpdateCategory : handleCreateCategory
+            }
+            onClose={handleCloseCategoryForm}
+          />
+        )}
+
+        {showDishForm && (
+          <DishForm
+            dish={editingDish}
+            categories={categories}
+            onSubmit={editingDish ? handleUpdateDish : handleCreateDish}
+            onClose={handleCloseDishForm}
+          />
+        )}
       </div>
-
-      {/* Modales */}
-      {showCategoryForm && (
-        <CategoryForm
-          category={editingCategory}
-          onSubmit={
-            editingCategory ? handleUpdateCategory : handleCreateCategory
-          }
-          onClose={handleCloseCategoryForm}
-        />
-      )}
-
-      {showDishForm && (
-        <DishForm
-          dish={editingDish}
-          categories={categories}
-          onSubmit={editingDish ? handleUpdateDish : handleCreateDish}
-          onClose={handleCloseDishForm}
-        />
-      )}
     </div>
   );
 };
