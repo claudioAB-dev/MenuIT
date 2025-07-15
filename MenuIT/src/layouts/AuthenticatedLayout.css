@@ -1,0 +1,12 @@
+/* src/layouts/AuthenticatedLayout.css */
+.authenticated-layout {
+  display: flex;
+  height: 100vh;
+  background-color: #f4f7f6;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 2rem;
+  overflow-y: auto; /* Para permitir scroll en el contenido principal */
+}

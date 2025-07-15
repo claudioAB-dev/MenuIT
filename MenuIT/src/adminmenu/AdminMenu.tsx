@@ -190,7 +190,6 @@ const AdminMenu: React.FC = () => {
 
   return (
     <div>
-      <AuthenticatedHeader />
       <div className="admin-container">
         <h1>Panel de Administración del Menú 🍽️</h1>
 
