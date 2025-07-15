@@ -1,12 +1,9 @@
-// src/pages/Profile/Profile.tsx
-
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
 
-// 1. Importa los nuevos servicios y tu hook de autenticación
 import {
   getMyRestaurant,
   createRestaurant,

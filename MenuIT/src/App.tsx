@@ -4,7 +4,7 @@ import ErrorBoundary from "./ErrorBoundary";
 import LandingPage from "./LandingPage/LandingPage";
 import Login from "./login/Login";
 import Register from "./login/Register";
-import Profile from "./adminmenu/profile/Profile";
+import Profile from "./auth/Profile";
 import { useAuth } from "./auth/AuthContext";
 import MainLayout from "./components/MainLayout";
 import CareersPage from "./pages/CareersPage";
@@ -17,7 +17,7 @@ import AboutPage from "./pages/AboutPage";
 import ProductFeaturesPage from "./pages/ProductFeaturesPage";
 import AdminMenu from "./adminmenu/AdminMenu";
 import ProtectedRoute from "./auth/ProtectedRoute";
-
+import PublicMenuPage from "./menu/PublicMenuPage";
 const AppContent: React.FC = () => {
   const { isAuthenticated } = useAuth();
 
@@ -26,6 +26,8 @@ const AppContent: React.FC = () => {
       <main>
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/menu/:slug" element={<PublicMenuPage />} />
+
           <Route
             path="/login"
             element={isAuthenticated ? <Navigate to="/adminmenu" /> : <Login />}
